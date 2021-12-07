@@ -2,6 +2,7 @@ package juegoCraps;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
@@ -25,6 +26,7 @@ public class GUI extends JFrame {
     private JPanel panelDados, panelResultados;
     private ImageIcon imageDado;
     private JTextArea resultados;
+    private Escucha escucha;
 
 
     /**
@@ -49,6 +51,8 @@ public class GUI extends JFrame {
     private void initGUI() {
         //Set up JFrame Container's Layout
         //Create Listener Object and Control Object
+        escucha = new Escucha();
+
         //Set up JComponents
         headerProject = new Header("Mesa Juego Craps", Color.BLACK);
         this.add(headerProject,BorderLayout.NORTH);
@@ -57,8 +61,8 @@ public class GUI extends JFrame {
         dado1 = new JLabel(imageDado);
         dado2 = new JLabel(imageDado);
 
-
-        lanzar = new JButton("lanzar");
+        lanzar = new JButton("Lanzar");
+        lanzar.addActionListener(escucha);
 
         panelDados = new JPanel();
         panelDados.setPreferredSize(new Dimension(300,180));
@@ -91,7 +95,12 @@ public class GUI extends JFrame {
     /**
      * inner class that extends an Adapter Class or implements Listeners used by GUI class
      */
-    private class Escucha {
+    private class Escucha implements ActionListener {
 
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            modelCraps.calcularTiro();
+            int[] caras = modelCraps.getCaras();
+        }
     }
 }
